@@ -1,4 +1,4 @@
-import { Stack } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import React from "react";
 import { Button, Dropdown, Input, UploadImage } from "../../blocks";
 import { colours } from "../../../styles";
@@ -12,42 +12,62 @@ import { TotalSquares } from "./components/TotalSquares";
 import { SelectBrand } from "./components/SelectBrand";
 import { SelectColour } from "./components/SelectColour";
 
-export const Form = () => {
-  const {
-    control,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm<z.infer<typeof uploadSchema>>({
+export const Form = ({
+  defaultValues,
+  onSubmit,
+  isEditing,
+}: {
+  defaultValues?: z.infer<typeof uploadSchema>;
+  onSubmit?: (data: z.infer<typeof uploadSchema>) => void;
+  isEditing?: boolean;
+}) => {
+  const { control, handleSubmit, watch } = useForm<
+    z.infer<typeof uploadSchema>
+  >({
     resolver: zodResolver(uploadSchema),
-    defaultValues: {
+    defaultValues: defaultValues || {
       [UploadFields.COLOUR]: {
         h: 214,
         s: 43,
         v: 90,
         a: 1,
       },
+      [UploadFields.BRAND]: "",
+      [UploadFields.NAME]: "",
+      [UploadFields.TAGS]: [],
+      [UploadFields.IMAGE]: undefined,
     },
   });
   const squares = watch(UploadFields.SQUARES);
   const isMultiColour = watch(UploadFields.IS_MULTI_COLOUR);
-
-  const onSubmit = (data: z.infer<typeof uploadSchema>) => {
+  const tags = watch(UploadFields.TAGS);
+  const brand = watch(UploadFields.BRAND);
+  /*const onSubmit = (data: z.infer<typeof uploadSchema>) => {
     // TODO: if this already exists in DB, notify frontend that
     // we're just going to update the quantity but not add a new item
-
+    completeSubmission(data);
     console.log(data);
-  };
+  };*/
 
   return (
     <Stack
       spacing={5}
       sx={{
+        backgroundColor: colours.white,
         display: "flex",
         padding: "24px",
         borderRadius: "8px",
         border: `1px solid ${colours.grey}`,
         width: "400px",
+        marginBottom: "40px",
+        ...(isEditing && {
+          height: "500px",
+          overflow: "auto",
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+        }),
       }}
     >
       <Stack spacing={3}>
@@ -64,7 +84,7 @@ export const Form = () => {
           )}
         />
         <Stack spacing={2}>
-          <SelectBrand control={control} />
+          <SelectBrand control={control} value={brand} />
           <Group label="Name">
             <Controller
               control={control}
@@ -99,9 +119,24 @@ export const Form = () => {
           />
         </Group>
         <SelectColour control={control} isMultiColour={isMultiColour} />
-        <AddTags control={control} />
+        <AddTags control={control} value={tags} />
       </Stack>
-      <Button text="Add to inventory" onClick={handleSubmit(onSubmit)} />
+      <Stack spacing={1}>
+        {isEditing && (
+          <Typography
+            width={1}
+            textAlign="center"
+            variant="caption"
+            color={colours.black}
+          >
+            Note: this will edit an existing item in your inventory
+          </Typography>
+        )}
+        <Button
+          text={isEditing ? "Update inventory" : "Add to inventory"}
+          onClick={handleSubmit(onSubmit || (() => {}))}
+        />
+      </Stack>
     </Stack>
   );
 };

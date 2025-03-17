@@ -7,7 +7,7 @@ import { Nav, Pages } from "./components/blocks";
 const App = () => {
   const [page, setPage] = useState<Pages>(Pages.INVENTORY);
   return (
-    <Stack spacing={15}>
+    <Stack spacing={12}>
       <Nav value={page} onChange={setPage} />
       {page === Pages.UPLOAD && <Upload />}
       {page === Pages.INVENTORY && <Inventory />}

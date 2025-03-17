@@ -11,7 +11,7 @@ export const InventoryBody = ({
   return (
     <Stack
       sx={{
-        height: "100vh",
+        height: "fit-content",
         maxWidth: "800px",
         width: 1,
       }}

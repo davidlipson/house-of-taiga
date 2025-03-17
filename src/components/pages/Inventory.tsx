@@ -8,7 +8,7 @@ export const Inventory = () => {
   const [inventory, setInventory] =
     useState<InventoryItem[]>(existingInventory);
   return (
-    <Stack spacing={2} alignItems="center" justifyContent="center" padding={2}>
+    <Stack spacing={2} alignItems="center" justifyContent="center" paddingX={2}>
       <SearchBar
         submitSearch={(query, tags) => {
           console.log(query, tags);

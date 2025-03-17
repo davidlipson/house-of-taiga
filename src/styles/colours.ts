@@ -8,5 +8,5 @@ export const colours = {
   darkGrey: "#757575",
   blue: "#9ec5fc",
   red: "#D9615A",
-  green: "#2BA54A",
+  green: "#2dbc82",
 };

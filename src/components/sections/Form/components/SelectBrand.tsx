@@ -11,10 +11,11 @@ import { existingBrands, existingTags } from "../../../../api";
 
 export const SelectBrand = ({
   control,
+  value,
 }: {
   control: Control<z.infer<typeof uploadSchema>>;
+  value: string;
 }) => {
-  const [currentBrand, setCurrentBrand] = useState<string | null>(null);
   const [suggestedBrands] = useState<string[]>(existingBrands);
   return (
     <Stack spacing={1}>
@@ -27,11 +28,11 @@ export const SelectBrand = ({
               options={suggestedBrands}
               placeholder="Select a brand or add a new one"
               onChange={(value) => {
-                const withoutWhitespace = value?.trim() ?? null;
-                setCurrentBrand(withoutWhitespace);
+                const withoutWhitespace =
+                  typeof value === "string" ? value.trim() : null;
                 field.onChange(withoutWhitespace);
               }}
-              value={currentBrand}
+              value={value}
               error={!!fieldState.error}
               helperText={fieldState.error?.message}
             />

@@ -1,31 +1,37 @@
+import { Colour } from "../components";
 import { existingBrands } from "./brand";
 import { existingTags } from "./tags";
+import { faker } from "@faker-js/faker";
 
 export type InventoryItem = {
   id: string;
   name: string;
   brand: string;
   image?: File;
-  price: number;
+  colour?: Colour;
+  cost: number;
   tags?: string[];
   quantity: number;
 };
 
-export const existingInventory: InventoryItem[] = [
-  {
-    id: "1",
-    name: "Product 1",
-    brand: existingBrands[0],
-    price: 100.75,
-    tags: [...existingTags, ...existingTags],
-    quantity: 10,
+const fakeItem = (): InventoryItem => ({
+  id: faker.string.uuid(),
+  name: faker.commerce.productName(),
+  brand: faker.helpers.arrayElement(existingBrands),
+  cost: faker.number.float({ min: 0, max: 100, fractionDigits: 2 }),
+  quantity: faker.number.int({ min: 0, max: 100 }),
+  tags: faker.helpers.arrayElements(existingTags, { min: 1, max: 3 }),
+  colour: {
+    h: faker.number.int({ min: 0, max: 360 }),
+    s: faker.number.int({ min: 0, max: 100 }),
+    v: faker.number.int({ min: 0, max: 100 }),
+    a: faker.number.int({ min: 0, max: 100 }),
   },
+});
+
+export const existingInventory: InventoryItem[] = faker.helpers.multiple(
+  fakeItem,
   {
-    id: "1",
-    name: "Product 2",
-    brand: existingBrands[1],
-    tags: existingTags.reverse(),
-    price: 50.25,
-    quantity: 0,
-  },
-];
+    count: 25,
+  }
+);

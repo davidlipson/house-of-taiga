@@ -1,30 +1,34 @@
-import { Stack } from "@mui/material";
+import { Stack, styled } from "@mui/material";
 import React from "react";
 import { colours } from "../../styles";
 
-const buttonStyle = {
+const ButtonStyled = styled(Stack)(({ size }: { size: "large" | "small" }) => ({
   backgroundColor: colours.black,
   color: colours.white,
   padding: "12px",
   borderRadius: "12px",
   alignItems: "center",
-  fontWeight: 200,
+  fontSize: size === "large" ? "14px" : "12px",
+  fontWeight: 300,
+  height: "fit-content",
   cursor: "pointer",
   "&:hover": {
     backgroundColor: colours.darkGrey,
   },
-};
+}));
 
 export const Button = ({
   text,
+  size = "large",
   onClick,
 }: {
   text: string;
+  size?: "large" | "small";
   onClick: () => void;
 }) => {
   return (
-    <Stack sx={buttonStyle} onClick={onClick}>
+    <ButtonStyled size={size} onClick={onClick}>
       {text}
-    </Stack>
+    </ButtonStyled>
   );
 };

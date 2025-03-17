@@ -10,14 +10,15 @@ import { ErrorText } from "../../../blocks";
 import { existingTags } from "../../../../api";
 
 export const AddTags = ({
+  value,
   control,
 }: {
+  value: string[];
   control: Control<z.infer<typeof uploadSchema>>;
 }) => {
   const [currentTag, setCurrentTag] = useState<string>("");
   const [suggestedTags, setSuggestedTags] = useState<string[]>(existingTags);
-  const [selectedTags, setSelectedTags] = useState<string[]>([]);
-  const allUniqueTags = [...new Set([...selectedTags, ...suggestedTags])];
+  const allUniqueTags = [...new Set([...value, ...suggestedTags])];
   return (
     <Group label="Tags">
       <Stack spacing={1}>
@@ -39,13 +40,9 @@ export const AddTags = ({
                           (word) => word.charAt(0).toUpperCase() + word.slice(1)
                         )
                         .join(" ");
-                      setSelectedTags([
-                        ...new Set([...selectedTags, capitalizedTag]),
-                      ]);
+
                       setCurrentTag("");
-                      field.onChange([
-                        ...new Set([...selectedTags, capitalizedTag]),
-                      ]);
+                      field.onChange([...new Set([...value, capitalizedTag])]);
                     } else {
                       setCurrentTag("");
                     }
@@ -59,15 +56,13 @@ export const AddTags = ({
                   <Tag
                     key={tag}
                     text={tag}
-                    active={selectedTags.includes(tag)}
+                    active={value.includes(tag)}
                     onClick={() => {
                       // move from one array to another
-                      if (selectedTags.includes(tag)) {
-                        setSelectedTags(selectedTags.filter((t) => t !== tag));
-                        field.onChange(selectedTags.filter((t) => t !== tag));
+                      if (value.includes(tag)) {
+                        field.onChange(value.filter((t) => t !== tag));
                       } else {
-                        setSelectedTags([...selectedTags, tag]);
-                        field.onChange([...new Set([...selectedTags, tag])]);
+                        field.onChange([...new Set([...value, tag])]);
                       }
                     }}
                   />

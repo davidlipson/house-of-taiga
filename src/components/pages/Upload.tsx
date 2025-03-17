@@ -4,8 +4,8 @@ import React from "react";
 
 export const Upload = () => {
   return (
-    <Stack width="100vw" height="100vh" alignItems="center">
-      <Form />
+    <Stack width="100vw" height="fit-content" alignItems="center">
+      <Form onSubmit={() => {}} />
     </Stack>
   );
 };

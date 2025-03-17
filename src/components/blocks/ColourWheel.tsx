@@ -6,7 +6,7 @@ import { Stack } from "@mui/material";
 import ShadeSlider from "@uiw/react-color-shade-slider";
 import { ErrorText } from "./ErrorText";
 
-type Colour = {
+export type Colour = {
   h: number;
   s: number;
   v: number;

@@ -33,6 +33,9 @@ export const Form = () => {
   const isMultiColour = watch(UploadFields.IS_MULTI_COLOUR);
 
   const onSubmit = (data: z.infer<typeof uploadSchema>) => {
+    // TODO: if this already exists in DB, notify frontend that
+    // we're just going to update the quantity but not add a new item
+
     console.log(data);
   };
 

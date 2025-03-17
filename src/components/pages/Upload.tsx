@@ -4,6 +4,10 @@ import React, { useState } from "react";
 import { colours } from "../../styles";
 export const Upload = () => {
   const [submitted, setSubmitted] = useState(false);
+  // TODO: return from API should have the InventoryItem
+  // should specify the location of the item, display this below
+  // so Taiga knows where to put it!
+
   return (
     <Stack width="100vw" height="fit-content" alignItems="center">
       {submitted ? (
@@ -11,7 +15,12 @@ export const Upload = () => {
           Added to your inventory.
         </Typography>
       ) : (
-        <Form onSubmit={() => setSubmitted(true)} />
+        <Form
+          onSubmit={(data) => {
+            console.log(data);
+            setSubmitted(true);
+          }}
+        />
       )}
     </Stack>
   );

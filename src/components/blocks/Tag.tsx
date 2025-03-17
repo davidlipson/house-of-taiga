@@ -9,6 +9,7 @@ const tagStyle = {
   borderRadius: "12px",
   alignItems: "center",
   fontWeight: 400,
+  backgroundColor: colours.grey,
 };
 
 export const Tag = ({
@@ -27,9 +28,11 @@ export const Tag = ({
       spacing={1}
       sx={{
         cursor: "pointer",
-        "&:hover": {
-          backgroundColor: colours.grey,
-        },
+        "&:hover": active
+          ? {}
+          : {
+              backgroundColor: colours.grey,
+            },
         ...tagStyle,
         backgroundColor: active ? colours.black : colours.lightGrey,
         color: active ? colours.grey : colours.darkGrey,

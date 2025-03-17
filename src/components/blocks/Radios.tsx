@@ -29,13 +29,14 @@ export const Radios = <T,>({
   return (
     <Stack>
       <RadioGroup value={value} onChange={(e) => onChange(e.target.value)}>
-        {options.map((option) => (
+        {options.map((option, index) => (
           <FormControlLabel
             sx={{
               "& .MuiFormControlLabel-label": {
                 fontWeight: 300,
               },
             }}
+            key={index}
             value={option.value}
             control={<Radio />}
             label={option.label}

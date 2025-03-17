@@ -4,3 +4,4 @@ export * from "./Radios";
 export * from "./Nav";
 export * from "./UploadImage";
 export * from "./ErrorText";
+export * from "./ColourWheel";

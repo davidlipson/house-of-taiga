@@ -9,10 +9,12 @@ export const Input = ({
   value,
   error,
   helperText,
+  onKeyDown,
 }: {
-  value: string | number;
+  value?: string | number;
   placeholder: string;
   onChange: (value: string) => void;
+  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   type?: "text" | "number" | "currency";
   error?: boolean;
   helperText?: string;
@@ -31,6 +33,7 @@ export const Input = ({
         placeholder={placeholder}
         onChange={(e) => onChange(e.target.value)}
         value={value}
+        onKeyDown={onKeyDown}
         type={type === "currency" ? "number" : type}
         InputProps={{
           startAdornment:

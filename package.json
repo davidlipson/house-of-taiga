@@ -21,6 +21,8 @@
     "@types/node": "^22.13.10",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
+    "@uiw/react-color-shade-slider": "^2.4.5",
+    "@uiw/react-color-wheel": "^2.4.5",
     "install": "^0.13.0",
     "npm": "^11.2.0",
     "react": "^19.0.0",

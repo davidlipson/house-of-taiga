@@ -9,7 +9,7 @@ export const ErrorText = ({
 }) => {
   if (!error || !helperText) return null;
   return (
-    <Typography marginTop={1} fontWeight={100} fontSize={12} color="error">
+    <Typography marginTop={0.5} fontWeight={100} fontSize={12} color="error">
       {helperText}
     </Typography>
   );

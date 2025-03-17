@@ -43,7 +43,7 @@ export const Input = ({
           },
         }}
         placeholder={placeholder}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(e) => onChange?.(e.target.value)}
         value={value}
         onKeyDown={onKeyDown}
         type={type === "currency" ? "number" : type}

@@ -32,6 +32,9 @@ export const Nav = ({
           color: colours.lightGrey,
           width: "100%",
         },
+        "& .MuiBottomNavigationAction-label": {
+          fontSize: "16px !important",
+        },
         "& button.Mui-selected": {
           color: colours.white,
           textDecoration: "underline",

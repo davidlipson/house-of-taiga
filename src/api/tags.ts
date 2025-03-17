@@ -6,4 +6,11 @@ export const existingTags = [
   "Abstract",
   "Patterns",
   "Textures",
+  "Nature",
+  "Geometric",
+  "Minimalist",
+  "Vintage",
+  "Modern",
+  "Classic",
+  "Boho",
 ];

@@ -1,7 +1,6 @@
 import { Button, Stack, styled, Typography } from "@mui/material";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
-import React, { useState } from "react";
-import { colours } from "../../styles";
+import React from "react";
 import { ErrorText } from "./ErrorText";
 
 const VisuallyHiddenInput = styled("input")({

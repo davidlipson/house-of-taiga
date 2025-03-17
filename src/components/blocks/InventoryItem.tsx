@@ -9,9 +9,9 @@ import EditIcon from "@mui/icons-material/Edit";
 import { Button } from "./Button";
 import { Form } from "../sections";
 import { UploadFields } from "../sections/Form/schema";
+import { ShelfChip } from "./ShelfChip";
 export const InventoryItem = (item: InventoryItemType) => {
   const [isEditing, setIsEditing] = useState(false);
-  console.log(item.colour && hsvaToHex(item.colour));
   return (
     <>
       <Modal open={isEditing} onClose={() => setIsEditing(false)}>
@@ -72,7 +72,11 @@ export const InventoryItem = (item: InventoryItemType) => {
                   {item.brand}
                 </Typography>
               </Stack>
-              <StockChip quantity={item.quantity} />
+              <Stack direction="row" spacing={1}>
+                {/* when quantity runs out, remove the shelf in the db entry */}
+                <ShelfChip shelf={item.shelf} />
+                <StockChip quantity={item.quantity} />
+              </Stack>
             </Stack>
             <EditIcon
               sx={{ cursor: "pointer", color: colours.black, fontSize: "18px" }}

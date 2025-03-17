@@ -25,10 +25,10 @@ export const uploadSchema = z
     [UploadFields.NAME]: z.string().min(1),
     [UploadFields.BRAND]: z.string().min(1),
     [UploadFields.SQUARES]: z.number(),
-    [UploadFields.CUSTOM_SQUARES]: z.number().min(1).optional(),
+    [UploadFields.CUSTOM_SQUARES]: z.number().gte(0).optional(),
     [UploadFields.TAGS]: z.array(z.string()).min(1),
     [UploadFields.IMAGE]: z.instanceof(File),
-    [UploadFields.COST]: z.number().gt(0),
+    [UploadFields.COST]: z.number().gte(0),
     [UploadFields.COLOUR]: colourSchema,
     [UploadFields.IS_MULTI_COLOUR]: z.boolean(),
   })
@@ -36,7 +36,7 @@ export const uploadSchema = z
     (data) =>
       data[UploadFields.SQUARES] !== 0 ||
       (data[UploadFields.CUSTOM_SQUARES] !== undefined &&
-        data[UploadFields.CUSTOM_SQUARES] > 0),
+        data[UploadFields.CUSTOM_SQUARES] >= 0),
     {
       path: [UploadFields.CUSTOM_SQUARES],
       message: "Custom squares is required",

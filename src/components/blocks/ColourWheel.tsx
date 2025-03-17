@@ -4,6 +4,7 @@ import { hsvaToHex } from "@uiw/color-convert";
 import React from "react";
 import { Stack } from "@mui/material";
 import ShadeSlider from "@uiw/react-color-shade-slider";
+import { ErrorText } from "./ErrorText";
 
 type Colour = {
   h: number;
@@ -15,9 +16,13 @@ type Colour = {
 export const ColourWheel = ({
   value,
   onChange,
+  error,
+  helperText,
 }: {
   value: Colour;
   onChange: (colour: Colour) => void;
+  error?: boolean;
+  helperText?: string;
 }) => {
   return (
     <Stack
@@ -48,6 +53,7 @@ export const ColourWheel = ({
         height="100%"
         bgcolor={hsvaToHex(value)}
       ></Stack>
+      <ErrorText error={error} helperText={helperText} />
     </Stack>
   );
 };

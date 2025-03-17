@@ -15,11 +15,13 @@ const tagStyle = {
 export const Tag = ({
   text,
   active,
+  size = "large",
   onClick,
 }: {
   text: string;
+  size?: "small" | "large";
   active?: boolean;
-  onClick: () => void;
+  onClick?: () => void;
 }) => {
   return (
     <Stack
@@ -40,8 +42,12 @@ export const Tag = ({
       onClick={onClick}
     >
       <Stack direction="row" spacing={1} alignItems="center">
-        {active && <CheckIcon sx={{ fontSize: "20px" }} />}
-        <Typography fontSize="14px">{text}</Typography>
+        {active && (
+          <CheckIcon sx={{ fontSize: size === "large" ? "20px" : "14px" }} />
+        )}
+        <Typography fontSize={size === "large" ? "14px" : "12px"}>
+          {text}
+        </Typography>
       </Stack>
     </Stack>
   );

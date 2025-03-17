@@ -9,7 +9,11 @@ export const Group = ({
 }) => {
   return (
     <Stack spacing={1}>
-      {label && <Typography fontWeight={200}>{label}</Typography>}
+      {label && (
+        <Typography fontWeight={300} fontSize="14px">
+          {label}
+        </Typography>
+      )}
       {children}
     </Stack>
   );

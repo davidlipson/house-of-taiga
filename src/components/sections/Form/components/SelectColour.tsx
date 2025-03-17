@@ -1,49 +1,38 @@
 import { Control, Controller } from "react-hook-form";
-import { Input, Radios } from "../../../blocks";
+import { ColourWheel, Input, Radios } from "../../../blocks";
 import { Group } from "./Group";
 import React from "react";
 import { z } from "zod";
 import { UploadFields, uploadSchema } from "../schema";
 
-export const TotalSquares = ({
+export const SelectColour = ({
   control,
-  value,
+  isMultiColour,
 }: {
   control: Control<z.infer<typeof uploadSchema>>;
-  value: number;
+  isMultiColour: boolean;
 }) => {
   return (
-    <Group label="Square Count">
+    <Group label="Colour">
       <Controller
         control={control}
-        name={UploadFields.SQUARES}
+        name={UploadFields.IS_MULTI_COLOUR}
         render={({ field, fieldState }) => (
           <>
             <Radios
               value={field.value}
               options={[
                 {
-                  label: "Fat Quarter",
-                  value: 12,
-                  description: "12 squares",
+                  label: "Multi-coloured",
+                  value: true,
                 },
                 {
-                  label: "Half Yard",
-                  value: 24,
-                  description: "24 squares",
-                },
-                {
-                  label: "Full Yard",
-                  value: 56,
-                  description: "56 squares",
-                },
-                {
-                  label: "Custom",
-                  value: 0,
+                  label: "Specific Colour",
+                  value: false,
                 },
               ]}
               onChange={(value) => {
-                field.onChange(Number(value));
+                field.onChange(value === "true");
               }}
               error={!!fieldState.error}
               helperText={fieldState.error?.message}
@@ -51,18 +40,16 @@ export const TotalSquares = ({
           </>
         )}
       />
-      {value === 0 && (
+      {isMultiColour === false && (
         <Controller
           control={control}
-          name={UploadFields.CUSTOM_SQUARES}
+          name={UploadFields.COLOUR}
           render={({ field, fieldState }) => (
-            <Input
-              placeholder="Enter the number of squares"
-              type="number"
-              onChange={(value) => {
-                field.onChange(Number(value));
+            <ColourWheel
+              value={field.value}
+              onChange={(colour) => {
+                field.onChange(colour);
               }}
-              value={field.value || 0}
               error={!!fieldState.error}
               helperText={fieldState.error?.message}
             />

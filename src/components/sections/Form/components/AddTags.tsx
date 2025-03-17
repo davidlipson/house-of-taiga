@@ -7,6 +7,7 @@ import { Control, Controller } from "react-hook-form";
 import { UploadFields, uploadSchema } from "../schema";
 import { z } from "zod";
 import { ErrorText } from "../../../blocks";
+import { existingTags } from "../../../../api";
 
 export const AddTags = ({
   control,
@@ -14,13 +15,9 @@ export const AddTags = ({
   control: Control<z.infer<typeof uploadSchema>>;
 }) => {
   const [currentTag, setCurrentTag] = useState<string>("");
-  const [suggestedTags, setSuggestedTags] = useState<string[]>([
-    "Tag 1",
-    "Tag 2",
-    "Tag 3",
-  ]);
+  const [suggestedTags, setSuggestedTags] = useState<string[]>(existingTags);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
-  const allUniqueTags = [...new Set([...suggestedTags, ...selectedTags])];
+  const allUniqueTags = [...new Set([...selectedTags, ...suggestedTags])];
   return (
     <Group label="Tags">
       <Stack spacing={1}>
@@ -33,12 +30,25 @@ export const AddTags = ({
                 placeholder="Press enter to add new tag, or search existing tags"
                 onChange={(value) => setCurrentTag(value)}
                 onKeyDown={(e) => {
-                  if (e.key === "Enter" && currentTag?.length > 0) {
-                    setSelectedTags([
-                      ...new Set([...selectedTags, currentTag]),
-                    ]);
-                    setCurrentTag("");
-                    field.onChange([...new Set([...selectedTags, currentTag])]);
+                  const trimmedTag = currentTag.trim();
+                  if (e.key === "Enter") {
+                    if (trimmedTag.length > 0) {
+                      const capitalizedTag = trimmedTag
+                        .split(" ")
+                        .map(
+                          (word) => word.charAt(0).toUpperCase() + word.slice(1)
+                        )
+                        .join(" ");
+                      setSelectedTags([
+                        ...new Set([...selectedTags, capitalizedTag]),
+                      ]);
+                      setCurrentTag("");
+                      field.onChange([
+                        ...new Set([...selectedTags, capitalizedTag]),
+                      ]);
+                    } else {
+                      setCurrentTag("");
+                    }
                   }
                 }}
                 value={currentTag}

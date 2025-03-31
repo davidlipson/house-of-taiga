@@ -1,49 +1,74 @@
-import { Stack } from "@mui/material";
-import React, { useState } from "react";
-import { colours } from "../../../styles";
+import { Stack, CircularProgress } from "@mui/material";
+import React, { useState, useEffect } from "react";
 import { Button, Dropdown, Input } from "../../blocks";
-import { existingTags } from "../../../api";
+import { useTags } from "../../../api";
 
 export const SearchBar = ({
-  submitSearch,
+  setSearchQuery,
+  setSelectedTags,
+  query,
+  tags,
 }: {
-  submitSearch: (query: string, tags: string[]) => void;
+  setSearchQuery: (query: string) => void;
+  setSelectedTags: (tags: string[]) => void;
+  query: string;
+  tags: string[];
 }) => {
-  const [search, setSearch] = useState<string>("");
-  const [tags, setTags] = useState<string[]>([]);
+  const { data: existingTags } = useTags();
+  const [localQuery, setLocalQuery] = useState(query);
+  const [isDebouncing, setIsDebouncing] = useState(false);
+
+  useEffect(() => {
+    setIsDebouncing(true);
+    const timer = setTimeout(() => {
+      setSearchQuery(localQuery);
+      setIsDebouncing(false);
+    }, 1000);
+
+    return () => {
+      clearTimeout(timer);
+      setIsDebouncing(false);
+    };
+  }, [localQuery, setSearchQuery]);
+
   return (
-    <Stack
-      sx={{
-        maxWidth: "800px",
-        width: 1,
-      }}
-      direction="row"
-      spacing={2}
-      alignItems="center"
-    >
-      <Stack width="100%">
+    <Stack width={1} spacing={2} alignItems="center">
+      <Stack width={1} position="relative">
         <Input
           placeholder="Search name or brand"
-          value={search}
-          onChange={(value) => setSearch(value)}
+          value={localQuery}
+          onChange={(value) => {
+            setLocalQuery(value);
+          }}
         />
+        {isDebouncing && (
+          <CircularProgress
+            size={20}
+            sx={{
+              position: "absolute",
+              right: 12,
+              top: "30%",
+              transform: "translateY(-50%)",
+              color: "grey.500",
+            }}
+          />
+        )}
       </Stack>
-      <Stack width="100%">
+      <Stack width={1}>
         <Dropdown
-          options={existingTags}
+          options={existingTags?.map((tag) => tag.name) || []}
           multiple
           placeholder="Select tags"
           value={tags}
           onChange={(value) => {
             if (Array.isArray(value)) {
-              setTags(value);
+              setSelectedTags(value);
             } else {
-              setTags(value ? [value] : []);
+              setSelectedTags(value ? [value] : []);
             }
           }}
         />
       </Stack>
-      <Button text="Search" onClick={() => {}} />
     </Stack>
   );
 };

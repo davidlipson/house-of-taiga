@@ -1,40 +1,42 @@
 import { Colour } from "../components";
-import { existingBrands } from "./brand";
-import { existingShelves } from "./shelves";
-import { existingTags } from "./tags";
-import { faker } from "@faker-js/faker";
+import { useQuery } from "@tanstack/react-query";
+import { GetAllResponse } from "./helpers/response";
+import { fetcher } from "./helpers/util";
+import { Brand } from "./brand";
+import { Bin } from "./bins";
+import { Tag } from "./tags";
 
 export type InventoryItem = {
   id: string;
   name: string;
-  brand: string;
-  shelf: string;
-  image?: File;
-  colour?: Colour;
+  brand: Brand;
+  bin: Bin;
+  //image?: File;
+  colour: string;
   cost: number;
-  tags?: string[];
+  tags: Tag[];
   quantity: number;
 };
 
-const fakeItem = (): InventoryItem => ({
-  id: faker.string.uuid(),
-  name: faker.commerce.productName(),
-  brand: faker.helpers.arrayElement(existingBrands),
-  shelf: faker.helpers.arrayElement(existingShelves),
-  cost: faker.number.float({ min: 0, max: 100, fractionDigits: 2 }),
-  quantity: faker.number.int({ min: 0, max: 100 }),
-  tags: faker.helpers.arrayElements(existingTags, { min: 1, max: 10 }),
-  colour: {
-    h: faker.number.int({ min: 0, max: 360 }),
-    s: faker.number.int({ min: 0, max: 100 }),
-    v: faker.number.int({ min: 0, max: 100 }),
-    a: faker.number.int({ min: 0, max: 100 }),
-  },
-});
+export enum InventoryKey {
+  BASE = "INVENTORY",
+}
 
-export const existingInventory: InventoryItem[] = faker.helpers.multiple(
-  fakeItem,
-  {
-    count: 25,
-  }
-);
+export const useInventory = ({
+  tags,
+  query,
+  searching,
+}: {
+  tags?: string[];
+  query?: string;
+  searching: boolean;
+}) => {
+  return useQuery<GetAllResponse<InventoryItem>>({
+    enabled: searching,
+    queryKey: [InventoryKey.BASE, tags, query],
+    queryFn: () =>
+      fetcher("inventory", {
+        params: { tags, query },
+      }),
+  });
+};

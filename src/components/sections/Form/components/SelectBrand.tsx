@@ -1,13 +1,11 @@
-import { Grid2, Stack } from "@mui/material";
-import { Input } from "../../../blocks/Input";
-import { Tag } from "../../../blocks/Tag";
+import { Stack } from "@mui/material";
 import React, { useState } from "react";
 import { Group } from "./Group";
 import { Control, Controller } from "react-hook-form";
 import { UploadFields, uploadSchema } from "../schema";
 import { z } from "zod";
-import { Dropdown, ErrorText } from "../../../blocks";
-import { existingBrands, existingTags } from "../../../../api";
+import { Dropdown } from "../../../blocks";
+import { useBrands } from "../../../../api";
 
 export const SelectBrand = ({
   control,
@@ -16,7 +14,9 @@ export const SelectBrand = ({
   control: Control<z.infer<typeof uploadSchema>>;
   value: string;
 }) => {
-  const [suggestedBrands] = useState<string[]>(existingBrands);
+  const { data: brands } = useBrands();
+  console.log(brands);
+  const [suggestedBrands] = useState<string[]>([]);
   return (
     <Stack spacing={1}>
       <Controller

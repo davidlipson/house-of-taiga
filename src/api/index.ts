@@ -1,4 +1,4 @@
 export * from "./brand";
 export * from "./tags";
 export * from "./inventory";
-export * from "./shelves";
+export * from "./bins";

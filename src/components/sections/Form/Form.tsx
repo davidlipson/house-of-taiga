@@ -16,15 +16,16 @@ export const Form = ({
   defaultValues,
   onSubmit,
   isEditing,
+  isModal,
 }: {
   defaultValues?: z.infer<typeof uploadSchema>;
   onSubmit?: (data: z.infer<typeof uploadSchema>) => void;
   isEditing?: boolean;
+  isModal?: boolean;
 }) => {
   const [submittingWithZero, setSubmittingWithZero] = useState<
     z.infer<typeof uploadSchema> | undefined
   >();
-  console.log(submittingWithZero);
   const { control, handleSubmit, watch } = useForm<
     z.infer<typeof uploadSchema>
   >({
@@ -64,7 +65,7 @@ export const Form = ({
       >
         <Stack
           spacing={5}
-          sx={{
+          sx={(theme) => ({
             backgroundColor: colours.white,
             display: "flex",
             padding: "24px",
@@ -74,8 +75,10 @@ export const Form = ({
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-          }}
-          width={1}
+            [theme.breakpoints.down("sm")]: {
+              width: "100%",
+            },
+          })}
         >
           <Stack spacing={2}>
             <Typography fontWeight={300} fontSize="16px" color={colours.black}>
@@ -114,7 +117,7 @@ export const Form = ({
       </Modal>
       <Stack
         spacing={5}
-        sx={{
+        sx={(theme) => ({
           backgroundColor: colours.white,
           display: "flex",
           borderRadius: "12px",
@@ -122,7 +125,7 @@ export const Form = ({
           padding: "24px",
           width: "400px",
           marginBottom: "40px",
-          ...(isEditing && {
+          ...((isEditing || isModal) && {
             height: "500px",
             overflow: "auto",
             position: "absolute",
@@ -131,8 +134,12 @@ export const Form = ({
             borderRadius: "0px",
             border: "none",
             transform: "translate(-50%, -50%)",
+            [theme.breakpoints.down("sm")]: {
+              width: "80%",
+              height: "80%",
+            },
           }),
-        }}
+        })}
       >
         <Stack spacing={3}>
           <Controller

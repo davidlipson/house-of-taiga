@@ -7,7 +7,7 @@ import { Control, Controller } from "react-hook-form";
 import { UploadFields, uploadSchema } from "../schema";
 import { z } from "zod";
 import { ErrorText } from "../../../blocks";
-import { existingTags } from "../../../../api";
+import { useTags } from "../../../../api";
 
 export const AddTags = ({
   value,
@@ -17,7 +17,9 @@ export const AddTags = ({
   control: Control<z.infer<typeof uploadSchema>>;
 }) => {
   const [currentTag, setCurrentTag] = useState<string>("");
-  const [suggestedTags, setSuggestedTags] = useState<string[]>(existingTags);
+  const { data } = useTags();
+  console.log(data);
+  const [suggestedTags, setSuggestedTags] = useState<string[]>([]);
   const allUniqueTags = [...new Set([...value, ...suggestedTags])];
   return (
     <Group label="Tags">

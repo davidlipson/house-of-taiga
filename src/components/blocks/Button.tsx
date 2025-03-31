@@ -21,13 +21,15 @@ export const Button = ({
   text,
   size = "large",
   onClick,
+  sx,
 }: {
-  text: string;
+  text: string | React.ReactNode;
   size?: "large" | "small";
+  sx?: any;
   onClick: () => void;
 }) => {
   return (
-    <ButtonStyled size={size} onClick={onClick}>
+    <ButtonStyled sx={sx} size={size} onClick={onClick}>
       {text}
     </ButtonStyled>
   );

@@ -12,11 +12,13 @@ export const ColourWheel = ({
   onChange,
   error,
   helperText,
+  width = 150,
 }: {
   value: Colour;
   onChange: (colour: Colour) => void;
   error?: boolean;
   helperText?: string;
+  width?: number;
 }) => {
   return (
     <Stack
@@ -29,13 +31,13 @@ export const ColourWheel = ({
       <Stack spacing={2} alignItems="center">
         <Wheel
           color={value}
-          width={150}
-          height={150}
+          width={width}
+          height={width}
           onChange={(colour) => onChange({ ...value, ...colour.hsva })}
         />
         <ShadeSlider
           hsva={value}
-          style={{ width: 150 }}
+          style={{ width }}
           onChange={(newShade) => {
             onChange({ ...value, ...newShade });
           }}
@@ -43,7 +45,7 @@ export const ColourWheel = ({
       </Stack>
       <Stack
         borderRadius="16px"
-        width={150}
+        width={width}
         height="100%"
         bgcolor={hsvaToHex(value)}
       ></Stack>

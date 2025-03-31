@@ -27,7 +27,7 @@ export const Dropdown = ({
   multiple?: boolean;
 }) => {
   return (
-    <Stack>
+    <Stack width={1}>
       <Autocomplete
         freeSolo={!multiple}
         fullWidth

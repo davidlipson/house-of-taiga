@@ -3,7 +3,6 @@ import React from "react";
 import { colours } from "../../styles";
 
 export enum Pages {
-  UPLOAD = "upload",
   INVENTORY = "inventory",
   CREATE = "create",
 }
@@ -44,7 +43,6 @@ export const Nav = ({
         onChange(newValue);
       }}
     >
-      {/* <BottomNavigationAction label="Upload" value={Pages.UPLOAD} /> */}
       <BottomNavigationAction label="Inventory" value={Pages.INVENTORY} />
       <BottomNavigationAction label="Create" value={Pages.CREATE} />
     </BottomNavigation>

@@ -43,9 +43,7 @@ export const Inventory = () => {
               brand: data.brand,
               name: data.name,
               quantity:
-                data.custom_squares === 0
-                  ? data.custom_squares || 0
-                  : data.squares,
+                data.squares === 0 ? data.custom_squares || 0 : data.squares,
               tags: data.tags,
               colour: data.is_multi_colour ? undefined : data.colour,
               cost: data.cost,

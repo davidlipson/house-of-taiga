@@ -17,10 +17,10 @@ export const AddTags = ({
   control: Control<z.infer<typeof uploadSchema>>;
 }) => {
   const [currentTag, setCurrentTag] = useState<string>("");
-  const { data } = useTags();
-  console.log(data);
-  const [suggestedTags, setSuggestedTags] = useState<string[]>([]);
-  const allUniqueTags = [...new Set([...value, ...suggestedTags])];
+  const { data: suggestedTags } = useTags();
+  const allUniqueTags = [
+    ...new Set([...value, ...(suggestedTags?.map((tag) => tag.name) || [])]),
+  ];
   return (
     <Group label="Tags">
       <Stack spacing={1}>

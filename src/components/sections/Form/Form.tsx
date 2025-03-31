@@ -1,6 +1,6 @@
 import { Modal, Stack, Typography } from "@mui/material";
 import React, { useState } from "react";
-import { Button, Dropdown, Input, UploadImage } from "../../blocks";
+import { Button, Input, UploadImage } from "../../blocks";
 import { colours } from "../../../styles";
 import { Group } from "./components/Group";
 import { UploadFields, uploadSchema } from "./schema";
@@ -49,13 +49,6 @@ export const Form = ({
   const isMultiColour = watch(UploadFields.IS_MULTI_COLOUR);
   const tags = watch(UploadFields.TAGS);
   const brand = watch(UploadFields.BRAND);
-
-  /*const onSubmit = (data: z.infer<typeof uploadSchema>) => {
-    // TODO: if this already exists in DB, notify frontend that
-    // we're just going to update the quantity but not add a new item
-    completeSubmission(data);
-    console.log(data);
-  };*/
 
   return (
     <>

@@ -3,7 +3,7 @@ import { Add } from "@mui/icons-material";
 import React, { useEffect, useState } from "react";
 import { Form, SearchBar } from "../sections";
 import { InventoryBody } from "../sections/InventoryBody";
-import { useInventory } from "../../api";
+import { useCreateInventoryItem, useInventory } from "../../api";
 import { Button } from "../blocks";
 import { colours } from "../../styles";
 
@@ -18,6 +18,8 @@ export const Inventory = () => {
     tags: selectedTags,
     query: searchQuery,
   });
+
+  const { mutate: createInventoryItem } = useCreateInventoryItem();
 
   useEffect(() => {
     if (!searching) {
@@ -35,7 +37,24 @@ export const Inventory = () => {
       alignSelf="center"
     >
       <Modal open={createModalOpen} onClose={() => setCreateModalOpen(false)}>
-        <Form onSubmit={() => setCreateModalOpen(false)} isModal={true} />
+        <Form
+          onSubmit={(data) => {
+            createInventoryItem({
+              brand: data.brand,
+              name: data.name,
+              quantity:
+                data.custom_squares === 0
+                  ? data.custom_squares || 0
+                  : data.squares,
+              tags: data.tags,
+              colour: data.is_multi_colour ? undefined : data.colour,
+              cost: data.cost,
+              // image
+            });
+            setCreateModalOpen(false);
+          }}
+          isModal={true}
+        />
       </Modal>
       <Stack alignItems="flex-end" width={1}>
         <Button

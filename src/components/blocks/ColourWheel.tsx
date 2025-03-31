@@ -5,13 +5,7 @@ import React from "react";
 import { Stack } from "@mui/material";
 import ShadeSlider from "@uiw/react-color-shade-slider";
 import { ErrorText } from "./ErrorText";
-
-export type Colour = {
-  h: number;
-  s: number;
-  v: number;
-  a: number;
-};
+import { Colour } from "../sections/Form/schema";
 
 export const ColourWheel = ({
   value,

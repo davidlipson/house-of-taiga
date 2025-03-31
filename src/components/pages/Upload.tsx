@@ -17,7 +17,6 @@ export const Upload = () => {
       ) : (
         <Form
           onSubmit={(data) => {
-            console.log(data);
             setSubmitted(true);
           }}
         />

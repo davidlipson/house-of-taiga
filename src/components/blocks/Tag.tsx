@@ -3,8 +3,8 @@ import { Stack, styled, Typography } from "@mui/material";
 import { colours } from "../../styles";
 import CheckIcon from "@mui/icons-material/Check";
 
-const TagStyled = styled(Stack)<{ active?: boolean }>(({ theme, active }) => ({
-  color: colours.white,
+const TagStyled = styled(Stack)<{ active?: boolean }>(({ active }) => ({
+  color: active ? colours.white : colours.black,
   padding: "8px",
   borderRadius: "12px",
   alignItems: "center",

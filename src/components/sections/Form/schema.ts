@@ -20,6 +20,8 @@ export const colourSchema = z.object({
   a: z.number(),
 });
 
+export type Colour = z.infer<typeof colourSchema>;
+
 export const uploadSchema = z
   .object({
     [UploadFields.NAME]: z.string().min(1),

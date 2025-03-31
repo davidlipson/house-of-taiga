@@ -16,17 +16,37 @@ import EditIcon from "@mui/icons-material/Edit";
 import { Form } from "../sections";
 import { UploadFields } from "../sections/Form/schema";
 import { BinChip } from "./BinChip";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { DeleteItem } from "./DeleteItem";
+import { useUpdateInventoryItem } from "../../api";
 export const InventoryItem = (item: InventoryItemType) => {
   const [isEditing, setIsEditing] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const shownTags = isMobile ? 1 : 3;
+  const { mutate: updateInventoryItem } = useUpdateInventoryItem();
   return (
     <>
       <Modal open={isEditing} onClose={() => setIsEditing(false)}>
         <Form
           isEditing={isEditing}
-          onSubmit={() => setIsEditing(false)}
+          onSubmit={(data) => {
+            updateInventoryItem({
+              id: item.id,
+              item: {
+                brand: data.brand,
+                name: data.name,
+                quantity:
+                  data.squares === 0 ? data.custom_squares || 0 : data.squares,
+                tags: data.tags,
+                colour: data.is_multi_colour ? undefined : data.colour,
+                cost: data.cost,
+                // image
+              },
+            });
+            setIsEditing(false);
+          }}
           defaultValues={{
             [UploadFields.NAME]: item.name,
             [UploadFields.BRAND]: item.brand.name,
@@ -36,7 +56,7 @@ export const InventoryItem = (item: InventoryItemType) => {
             [UploadFields.TAGS]: item.tags.map((tag) => tag.name),
             [UploadFields.IMAGE]: new File([], "image.png"), //item.image,
             [UploadFields.IS_MULTI_COLOUR]: !item.colour,
-            [UploadFields.COLOUR]: /* TODO: item.colour || */ {
+            [UploadFields.COLOUR]: item.colour || {
               h: 214,
               s: 43,
               v: 90,
@@ -45,6 +65,11 @@ export const InventoryItem = (item: InventoryItemType) => {
           }}
         />
       </Modal>
+      <DeleteItem
+        open={isDeleting}
+        id={item.id}
+        close={() => setIsDeleting(false)}
+      />
       <Stack
         border={`1px solid ${colours.grey}`}
         borderRadius={1}
@@ -59,11 +84,7 @@ export const InventoryItem = (item: InventoryItemType) => {
         justifyContent="space-between"
       >
         <Stack
-          bgcolor={
-            item.colour // TODO: string color to hsva
-              ? hsvaToHex({ h: 214, s: 43, v: 90, a: 1 })
-              : colours.grey
-          }
+          bgcolor={item.colour ? hsvaToHex(item.colour) : colours.grey}
           height="100%"
           display={{
             xs: "none",
@@ -98,10 +119,24 @@ export const InventoryItem = (item: InventoryItemType) => {
                 <StockChip quantity={item.quantity} />
               </Stack>
             </Stack>
-            <EditIcon
-              sx={{ cursor: "pointer", color: colours.black, fontSize: "18px" }}
-              onClick={() => setIsEditing(!isEditing)}
-            />
+            <Stack direction="row" spacing={1}>
+              <EditIcon
+                sx={{
+                  cursor: "pointer",
+                  color: colours.black,
+                  fontSize: "18px",
+                }}
+                onClick={() => setIsEditing(!isEditing)}
+              />
+              <DeleteIcon
+                sx={{
+                  cursor: "pointer",
+                  color: colours.red,
+                  fontSize: "18px",
+                }}
+                onClick={() => setIsDeleting(!isDeleting)}
+              />
+            </Stack>
           </Stack>
           {item.tags?.length && (
             <Grid2 overflow="hidden" container spacing={1}>

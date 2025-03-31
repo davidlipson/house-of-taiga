@@ -15,8 +15,6 @@ export const SelectBrand = ({
   value: string;
 }) => {
   const { data: brands } = useBrands();
-  console.log(brands);
-  const [suggestedBrands] = useState<string[]>([]);
   return (
     <Stack spacing={1}>
       <Controller
@@ -25,8 +23,8 @@ export const SelectBrand = ({
         render={({ field, fieldState }) => (
           <Group label="Brand">
             <Dropdown
-              options={suggestedBrands}
-              placeholder="Select a brand or add a new one"
+              options={brands?.map((brand) => brand.name) || []}
+              placeholder={value || "Select a brand or add a new one"}
               onChange={(value) => {
                 const withoutWhitespace =
                   typeof value === "string" ? value.trim() : null;
